@@ -1,21 +1,18 @@
 import 'package:apptareas/gestionEtiqueta.dart';
+import 'package:apptareas/listaTareas.dart';
 import 'package:flutter/material.dart';
 import 'modelos.dart';
 import 'gestionEtiqueta.dart';
 class Tarea extends StatefulWidget {
-  final List<modeloTarea> listaTarea;
-  const Tarea(this.listaTarea,{Key? key}) : super(key: key);
-
+  const Tarea({Key? key}) : super(key: key);
   @override
-  State<Tarea> createState() => _TareaState(listaTarea);
+  State<Tarea> createState() => _TareaState();
 }
 
 class _TareaState extends State<Tarea> {
-  final List<modeloTarea> listaTarea;
-  _TareaState(this.listaTarea);
   TextEditingController controllerNombre= TextEditingController();
   TextEditingController controllerFecha= TextEditingController();
-  List<modeloEtiqueta> listaEtiqueta=[];
+
   @override
   void initState() {
     super.initState();
@@ -86,14 +83,17 @@ class _TareaState extends State<Tarea> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      listaEtiqueta.isEmpty?Text('No hay etiquetas'):DropdownButton(
-                        items:[],
+
+                      listaTareas.listaTarea.isEmpty?Text('No hay etiquetas'):DropdownButton(
+                        items:[
+
+                        ],
                         onChanged: (value) {
 
                         },),
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => gestionEtiqueta(listaEtiqueta),));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => gestionEtiqueta(),));
                         },
                         child: Icon(Icons.edit),
 

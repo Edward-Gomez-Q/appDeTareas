@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'modelos.dart';
 import 'Tarea.dart';
 class listaTareas extends StatefulWidget {
+  static List<modeloTarea> listaTarea=[];
+  static List<modeloEtiqueta> listaEtiqueta=[];
   const listaTareas({Key? key}) : super(key: key);
   @override
   State<listaTareas> createState() => _listaTareasState();
 }
 
 class _listaTareasState extends State<listaTareas> {
-  List<modeloTarea> listaTarea=[];
 
   @override
   void initState() {
@@ -24,16 +25,16 @@ class _listaTareasState extends State<listaTareas> {
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: listaTarea.isEmpty?Text('No tienes tareas registradas'):ListView.builder(
+        child: listaTareas.listaTarea.isEmpty?Text('No tienes tareas registradas'):ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: listaTarea.length,
+          itemCount: listaTareas.listaTarea.length,
           itemBuilder: (context, index) {
           return Card(
             child: ListTile(
               title: Row(
                 children: [
-                  Text('${listaTarea[index].Nombre}')
+                  Text('${listaTareas.listaTarea[index].Nombre}')
                 ],
               ),
 
@@ -43,7 +44,7 @@ class _listaTareasState extends State<listaTareas> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Tarea(listaTarea)));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Tarea()));
         },
       ),
     );
