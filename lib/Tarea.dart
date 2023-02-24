@@ -114,7 +114,7 @@ class _TareaState extends State<Tarea> {
                       width: 500,
                       child: ElevatedButton(
                           onPressed: () {
-                            if(controllerNombre.text=="" || controllerFecha=="" || select==null)
+                            if(controllerNombre.text=="" || controllerFecha.text=="" || select==null)
                             {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -128,6 +128,13 @@ class _TareaState extends State<Tarea> {
                               listaTareas.listaTarea.add(modeloTarea(controllerNombre.text, controllerFecha.text, select!,false));
                               setState(() {
                               });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Tarea registrada'),
+                                  duration: Duration(seconds: 2),
+                                ),
+
+                              );
                               Navigator.of(context).pop();
                               Navigator.of(context).pop();
                               Navigator.of(context).push(MaterialPageRoute(builder: (context) => listaTareas(),));

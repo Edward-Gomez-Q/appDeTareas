@@ -97,22 +97,39 @@ class _gestionEtiquetaState extends State<gestionEtiqueta> {
                     }, child: const Text('NUEVO')),
                 ElevatedButton(
                     onPressed: () {
+                      bool datosVacios=false;
                       for(int i=0;i<listAux.length;i++)
                       {
                         listAux[i].Nombre=_controllers[i].text;
+                        if(_controllers[i].text=="")
+                        {
+                          datosVacios=true;
+                        }
                       }
-                      listaTareas.listaEtiqueta.clear();
-                      listaTareas.listaEtiqueta.addAll(listAux);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Datos guardados'),
-                          duration: Duration(seconds: 2),
-                        ),
+                      if(datosVacios)
+                      {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Hay una etiqueta vacía, corrígela.'),
+                            duration: Duration(seconds: 3),
+                          ),
+                        );
+                      }
+                      else
+                      {
+                        listaTareas.listaEtiqueta.clear();
+                        listaTareas.listaEtiqueta.addAll(listAux);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Datos guardados'),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Tarea()));
+                      }
 
-                      );
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => Tarea()));
                     }, child: const Text('GUARDAR')),
                 ElevatedButton(
                     onPressed: () {
