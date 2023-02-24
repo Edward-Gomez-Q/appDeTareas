@@ -108,7 +108,11 @@ class _gestionEtiquetaState extends State<gestionEtiqueta> {
                           content: Text('Datos guardados'),
                           duration: Duration(seconds: 2),
                         ),
+
                       );
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => Tarea()));
                     }, child: const Text('GUARDAR')),
                 ElevatedButton(
                     onPressed: () {

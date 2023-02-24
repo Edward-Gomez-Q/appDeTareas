@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 class modeloTarea{
   String Nombre;
-  DateTime Fecha;
-  modeloEtiqueta etiqueta;
-  modeloTarea(this.Nombre,this.Fecha,this.etiqueta);
+  String Fecha;
+  String etiqueta;
+  bool Estado;
+  modeloTarea(this.Nombre,this.Fecha,this.etiqueta,this.Estado);
   Map<String,dynamic> toMap(){
     return{'Nombre':Nombre,'Fecha':Fecha,'Etiqueta':etiqueta};
   }

@@ -25,28 +25,100 @@ class _listaTareasState extends State<listaTareas> {
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: listaTareas.listaTarea.isEmpty?Text('No tienes tareas registradas'):ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: listaTareas.listaTarea.length,
-          itemBuilder: (context, index) {
-          return Card(
-            child: ListTile(
-              title: Row(
-                children: [
-                  Text('${listaTareas.listaTarea[index].Nombre}')
-                ],
-              ),
+        child: listaTareas.listaTarea.isEmpty ? Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(child: Text('No tienes tareas registradas')),
+        ) : Container(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 400,
+                  width: 300,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: listaTareas.listaTarea.length,
+                      itemBuilder: (context, index) {
+                        modeloTarea tarea = listaTareas.listaTarea[index];
+                        return Card(
+                          child: ListTile(
+                            title: Row(
+                              children: [
+                                Container(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('${tarea.Nombre}'),
+                                      Text('${tarea.Fecha}'),
+                                      Text('${tarea.etiqueta}')
+                                    ],
+                                  ),
+                                  width: 150,
+                                ),
+                                Container(
+                                  width: 100,
+                                  child: Column(
+                                    children: [
+                                      tarea.Estado ? complete(index) : pendiente(index)
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
 
+                          ),
+                        );
+                      },),
+                  ),
+                ),
+              ],
             ),
-          );
-        },),
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Tarea()));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => Tarea()));
         },
       ),
+    );
+  }
+
+  Widget complete(index) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Completado'),
+        TextButton(onPressed: () {
+          listaTareas.listaTarea[index].Estado = false;
+          setState(() {
+
+          });
+        }, child: Text('MARCAR COMO PENDIENTE'))
+      ],
+    );
+  }
+
+  Widget pendiente(index) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Pendiente'),
+        TextButton(onPressed: () {
+          listaTareas.listaTarea[index].Estado = true;
+          setState(() {
+
+          });
+        }, child: Text('COMPLETAR'),
+        )
+      ],
     );
   }
 }

@@ -12,6 +12,7 @@ class Tarea extends StatefulWidget {
 class _TareaState extends State<Tarea> {
   TextEditingController controllerNombre= TextEditingController();
   TextEditingController controllerFecha= TextEditingController();
+  String? select;
 
   @override
   void initState() {
@@ -27,83 +28,126 @@ class _TareaState extends State<Tarea> {
     {
       controllerFecha.text= '${Fecha.day.toString().padLeft(2, '0')}/${Fecha.month.toString().padLeft(2, '0')}/${Fecha.year.toString()}';
       setState(() {
-
       });
     }
   }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text("REGISTRAR NUEVA TAREA"),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 20),
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25,vertical: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Nombre de la Tarea'),
-                  TextField(
-                    controller: controllerNombre,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder()
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 20),
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25,vertical: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Nombre de la Tarea'),
+                    TextField(
+                      controller: controllerNombre,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder()
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25,vertical: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Fecha de cumplimento'),
-                  TextField(
-                    readOnly: true,
-                    controller: controllerFecha,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder()
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25,vertical: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Fecha de cumplimento'),
+                    TextField(
+                      readOnly: true,
+                      controller: controllerFecha,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder()
+                      ),
+                      onTap: () => _seleccionFecha(context),
                     ),
-                    onTap: () => _seleccionFecha(context),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25,vertical: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('Etiqueta'),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25,vertical: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Etiqueta'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        listaTareas.listaEtiqueta.isEmpty?Text('No hay etiquetas'):DropdownButton(
+                          hint: Text('Seleccione una etiqueta'),
+                          value: select,
+                          items:listaTareas.listaEtiqueta.map((opcion){
+                            return DropdownMenuItem(
+                              value: opcion.Nombre,
+                              child: Text(opcion.Nombre),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              select=value!;
+                            });
+                          },
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => gestionEtiqueta(),));
+                          },
+                          child: Icon(Icons.edit),
 
-                      listaTareas.listaTarea.isEmpty?Text('No hay etiquetas'):DropdownButton(
-                        items:[
-
-                        ],
-                        onChanged: (value) {
-
-                        },),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => gestionEtiqueta(),));
-                        },
-                        child: Icon(Icons.edit),
-
-                      )
-                    ],
-                  ),
-                ],
+                        )
+                      ],
+                    ),
+                    Container(height: 200,),
+                    SizedBox(
+                      width: 500,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            if(controllerNombre.text=="" || controllerFecha=="" || select==null)
+                            {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Por favor, llene los datos correctamente.'),
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
+                            }
+                            else
+                            {
+                              listaTareas.listaTarea.add(modeloTarea(controllerNombre.text, controllerFecha.text, select!,false));
+                              setState(() {
+                              });
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pop();
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => listaTareas(),));
+                            }
+                          }, child: const Text('GUARDAR')),
+                    ),
+                    SizedBox(
+                      width: 500,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            setState(() {
+                            });
+                          }, child: const Text('CANCELAR')),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
