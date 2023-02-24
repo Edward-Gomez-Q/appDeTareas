@@ -1,4 +1,4 @@
-import 'Tareas.dart';
+import 'listaTareas.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
@@ -21,17 +21,15 @@ class _LoginState extends State<Login> {
 
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: Column(
-
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 25),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text('Usuario'),
                       TextField(
-
                         decoration: InputDecoration(
                           border: OutlineInputBorder()
                         ),
@@ -43,7 +41,7 @@ class _LoginState extends State<Login> {
                   padding: EdgeInsets.symmetric(horizontal: 25),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text('Contraseña'),
                       TextField(
                         obscureText: true,
@@ -55,7 +53,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 TextButton(onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => Tareas(),));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => listaTareas(),));
                 },
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color> (Colors.blueAccent),
